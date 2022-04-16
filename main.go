@@ -49,6 +49,7 @@ func main() {
 	if err != nil {
 		logger.Fatalf("[main] error initializing hdfs: %+v", err)
 	}
+	logger.Infof("connected to hdfs successfully")
 
 	repository := repository.NewRepository(repository.NewRepositoryParams{
 		Logger:        logger,
@@ -56,6 +57,11 @@ func main() {
 		Config:        config,
 		HDFSClient:    hdfsClient,
 	})
+
+	err = repository.CreateHDFSDirectory("/audi_skripsi/data_lake")
+	if err != nil {
+		logger.Fatalf("[main] failed initializing data lake folder: %+v", err)
+	}
 
 	service := service.NewService(service.NewServiceParams{
 		Logger:     logger,

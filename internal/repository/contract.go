@@ -10,6 +10,8 @@ import (
 
 type Repository interface {
 	PushEventLog(log model.EventLog) (err error)
+
+	CreateHDFSDirectory(path string) (err error)
 }
 
 type repository struct {
