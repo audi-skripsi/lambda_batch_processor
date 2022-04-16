@@ -12,6 +12,7 @@ type Repository interface {
 	PushEventLog(log model.EventLog) (err error)
 
 	CreateHDFSDirectory(path string) (err error)
+	AppendToHDFSFile(fileName string, content []byte) (err error)
 }
 
 type repository struct {

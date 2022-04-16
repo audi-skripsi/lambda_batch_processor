@@ -9,6 +9,7 @@ import (
 	"github.com/audi-skripsi/lambda_batch_processor/cmd/consumer"
 	"github.com/audi-skripsi/lambda_batch_processor/internal/component"
 	"github.com/audi-skripsi/lambda_batch_processor/internal/config"
+	"github.com/audi-skripsi/lambda_batch_processor/internal/constant"
 	"github.com/audi-skripsi/lambda_batch_processor/internal/repository"
 	"github.com/audi-skripsi/lambda_batch_processor/internal/service"
 	"github.com/audi-skripsi/lambda_batch_processor/pkg/util/logutil"
@@ -58,7 +59,7 @@ func main() {
 		HDFSClient:    hdfsClient,
 	})
 
-	err = repository.CreateHDFSDirectory("/audi_skripsi/data_lake")
+	err = repository.CreateHDFSDirectory(constant.HDFSDataLakeBasePath)
 	if err != nil {
 		logger.Fatalf("[main] failed initializing data lake folder: %+v", err)
 	}
