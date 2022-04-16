@@ -29,9 +29,7 @@ func EventLogDtoToBase64(logDto dto.EventLog) (b64 string, err error) {
 }
 
 func Base64ToEventLogDto(b64 string) (logDto dto.EventLog, err error) {
-	var dst []byte
-
-	_, err = base64.StdEncoding.Decode(dst, []byte(b64))
+	dst, err := base64.StdEncoding.DecodeString(b64)
 	if err != nil {
 		return
 	}

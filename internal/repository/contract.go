@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"time"
+
 	"github.com/audi-skripsi/lambda_batch_processor/internal/config"
 	"github.com/audi-skripsi/lambda_batch_processor/internal/model"
 	"github.com/colinmarc/hdfs/v2"
@@ -13,6 +15,8 @@ type Repository interface {
 
 	CreateHDFSDirectory(path string) (err error)
 	AppendToHDFSFile(fileName string, content []byte) (err error)
+	GetFilePathsWithTimeRange(dir string, startTime time.Time, endTime time.Time) (filePaths []string, err error)
+	ReadFile(filePath string) (file []byte, err error)
 }
 
 type repository struct {
