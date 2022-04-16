@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/audi-skripsi/lambda_batch_processor/cmd/consumer"
+	"github.com/audi-skripsi/lambda_batch_processor/cmd/http"
 	"github.com/audi-skripsi/lambda_batch_processor/internal/component"
 	"github.com/audi-skripsi/lambda_batch_processor/internal/config"
 	"github.com/audi-skripsi/lambda_batch_processor/internal/constant"
@@ -81,6 +82,11 @@ func main() {
 		consumer.Init()
 	} else if *logExtractorMode {
 		logger.Infof("starting app as log-extractor mode")
+		http.StartServer(http.ServerInitParams{
+			Logger:  logger,
+			Config:  config,
+			Service: service,
+		})
 	} else {
 		logger.Errorf("invalid app mode, should be log-injector or log-extractor")
 	}

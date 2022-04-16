@@ -8,7 +8,9 @@ import (
 )
 
 type Service interface {
+	Ping() (pingResponse string, timestamp int64)
 	StoreToDataLake(event dto.EventLog) (err error)
+	ExtractEvents(req dto.EventExtractionRequest) (total int, err error)
 }
 
 type service struct {
