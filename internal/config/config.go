@@ -11,6 +11,7 @@ type Config struct {
 	AppName     string
 	AppAddress  string
 	KafkaConfig KafkaConfig
+	HDFSConfig  HDFSConfig
 }
 
 var config *Config
@@ -30,6 +31,9 @@ func Init() {
 			OutTopic:      os.Getenv("KAFKA_OUT_TOPIC"),
 			ConsumerGroup: os.Getenv("KAFKA_CONSUMER_GROUP"),
 		},
+		HDFSConfig: HDFSConfig{
+			NameNodeAddress: os.Getenv("NAME_NODE_ADDRESS"),
+		},
 	}
 
 	if config.AppName == "" {
@@ -44,6 +48,10 @@ func Init() {
 		config.KafkaConfig.InTopic == "" ||
 		config.KafkaConfig.OutTopic == "" {
 		log.Panicf("[Init] kafka config cannot be empty")
+	}
+
+	if config.HDFSConfig.NameNodeAddress == "" {
+		log.Panicf("[Init] namenode address cannot be empty")
 	}
 }
 

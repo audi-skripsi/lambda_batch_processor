@@ -45,10 +45,16 @@ func main() {
 		logger.Fatalf("[main] error initializing kafka publisher: %+v", err)
 	}
 
+	hdfsClient, err := component.NewHDFSClient(config.HDFSConfig)
+	if err != nil {
+		logger.Fatalf("[main] error initializing hdfs: %+v", err)
+	}
+
 	repository := repository.NewRepository(repository.NewRepositoryParams{
 		Logger:        logger,
 		KafkaProducer: kafkaProducer,
 		Config:        config,
+		HDFSClient:    hdfsClient,
 	})
 
 	service := service.NewService(service.NewServiceParams{
