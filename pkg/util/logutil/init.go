@@ -23,5 +23,7 @@ func NewLogger(params NewLoggerParams) *logrus.Entry {
 		},
 	})
 
+	log.SetLevel(logrus.WarnLevel)
+
 	return log.WithField("service", params.ServiceName)
 }
