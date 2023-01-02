@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"log"
 	"os"
 	"os/signal"
 	"time"
@@ -35,23 +36,26 @@ func main() {
 		ServiceName: config.AppName,
 	})
 
-	logger.Infof("app initialized with config of: %+v", config)
+	log.Printf("app initialized with config of: %+v", config)
 
 	kafkaConsumer, err := component.NewKafkaConsumer(config.KafkaConfig)
 	if err != nil {
 		logger.Fatalf("[main] error initializing kafka consumer: %+v", err)
 	}
+	log.Println("kafka consumer initiated")
 
 	kafkaProducer, err := component.NewKafkaPublisher(config.KafkaConfig)
 	if err != nil {
 		logger.Fatalf("[main] error initializing kafka publisher: %+v", err)
 	}
 
+	log.Println("kafka producer initiated")
+
 	hdfsClient, err := component.NewHDFSClient(config.HDFSConfig)
 	if err != nil {
 		logger.Fatalf("[main] error initializing hdfs: %+v", err)
 	}
-	logger.Infof("connected to hdfs successfully")
+	log.Println("connected to hdfs successfully")
 
 	repository := repository.NewRepository(repository.NewRepositoryParams{
 		Logger:        logger,
@@ -72,7 +76,7 @@ func main() {
 	})
 
 	if *logInjectorMode {
-		logger.Infof("starting app as log-injector mode")
+		log.Println("starting app as log-injector mode")
 		consumer := consumer.NewConsumer(consumer.NewConsumerParams{
 			Logger:        logger,
 			KafkaConsumer: kafkaConsumer,
@@ -81,7 +85,7 @@ func main() {
 		})
 		consumer.Init()
 	} else if *logExtractorMode {
-		logger.Infof("starting app as log-extractor mode")
+		log.Println("starting app as log-extractor mode")
 		http.StartServer(http.ServerInitParams{
 			Logger:  logger,
 			Config:  config,
